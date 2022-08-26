@@ -1,0 +1,12 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_BookLayout.cshtml";
+}
+
+@section BreadcrumbItem{
+    <span class="breadcrumb-item active">@ViewBag.SiteName</span>
+}
+
+<section class="recent-book-sec" id="bookUpdate">
+    @Html.Partial("_ListByCategoryPartial")
+</section>

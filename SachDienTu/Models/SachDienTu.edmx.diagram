@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0df220c3b37c4827b302308e35a27017" Name="Diagram1">
+        <EntityTypeShape EntityType="SachDienTu.Models.C__MigrationHistory" Width="1.5" PointX="7.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.AspNetRole" Width="1.5" PointX="7.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.AspNetUserClaim" Width="1.5" PointX="12.25" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.AspNetUserLogin" Width="1.5" PointX="12.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.AspNetUser" Width="1.5" PointX="10" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.AuthorContribute" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.Book" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.BookAuthor" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.BookDistribution" Width="1.5" PointX="9.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.BookState" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.Category" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.Image" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.ImageDistribution" Width="1.5" PointX="5.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.Invoice" Width="1.5" PointX="3" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.InvoiceDetail" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.PublishingHouse" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SachDienTu.Models.sysdiagram" Width="1.5" PointX="7.75" PointY="11.5" IsExpanded="true" />
+        <AssociationConnector Association="SachDienTu.Models.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_Contribute_Author" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_Contribute_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_Book_Category" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_Book_Publisher" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_Book_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_ImageDistribution_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_InvoiceDetails_Book" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_ImageDistribution_Image" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.FK_InvoiceDetails_Invoice" ManuallyRouted="false" />
+        <AssociationConnector Association="SachDienTu.Models.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

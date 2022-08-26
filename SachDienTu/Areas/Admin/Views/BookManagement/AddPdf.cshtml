@@ -1,0 +1,165 @@
+﻿@model SachDienTu.Models.Book
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles{
+
+    <script src="~/front-end/pdfjs/build/pdf.js"></script>
+
+    <style type="text/css">
+        #pdf {
+            border: 1px solid black;
+            direction: ltr;
+            width: 150px;
+            height: 250px;
+        }
+    </style>
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.SiteName</h6>
+    </div>
+    <div class="card-body">
+        @Html.DisplayFor(model => model.name, new { htmlAttributes = new { @class = "text-primary" } })
+        <hr />
+        <p>@ViewBag.Result</p>
+        <p>@TempData["deletePdf"]</p>
+        <hr />
+        @if (string.IsNullOrEmpty(Model.pdf))
+        {
+            using (Html.BeginForm("AddPdf", "BookManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ID)
+
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="inputfile" name="file">
+                            <label class="custom-file-label" for="inputfile">chọn tập tin</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2">
+                            <input type="submit" value="Tải lên" class="btn btn-success" />
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div>
+                <button id="prev">Previous</button>
+                <button id="next">Next</button>
+                &nbsp; &nbsp; <span>
+                    Page: <span id="page_num"></span> /
+                    <span id="page_count"></span>
+                </span>
+            </div>
+            <canvas id="pdf"></canvas>
+
+            using (Html.BeginForm("DeletePdf", "BookManagement", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ID)
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2">
+                            <input type="submit" value="Xóa PDF" class="btn btn-danger" />
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Quay về danh sách", "Index", "null", htmlAttributes: new { @class = "btn btn-primary" })|
+        @Html.ActionLink("Xem chi tiết", "Detail", "null", htmlAttributes: new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+@section Scripts{
+    @if (!string.IsNullOrEmpty(Model.pdf))
+    {
+        <script type="text/javascript">
+            var url = "@string.Format("/PDFs/{0}", @Model.pdf)";
+            var pdfjsLib = window["pdfjs-dist/build/pdf"];
+
+            pdfjsLib.GlobalWorkerOptions.workerSrc = "/front-end/pdfjs/build/pdf.worker.js";
+            var pdfDoc = null, pageNum = 1, pageRendering = false, pageNumPending = null, scale = 0.8, canvas = document
+                .getElementById("pdf"), ctx = canvas.getContext("2d");
+
+            function renderPage(num) {
+                pageRendering = true;
+                pdfDoc.getPage(num).then(function (page) {
+                    var viewport = page.getViewport({
+                        scale: scale
+                    });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    var renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                    };
+                    var renderTask = page.render(renderContext);
+
+                    renderTask.promise.then(function () {
+                        pageRendering = false;
+                        if (pageNumPending !== null) {
+                            renderPage(pageNumPending);
+                            pageNumPending = null;
+                        }
+                    });
+                });
+
+                document.getElementById("page_num").textContent = num;
+            }
+
+            function queueRenderPage(num) {
+                if (pageRendering) {
+                    pageNumPending = num;
+                } else {
+                    renderPage(num);
+                }
+            }
+
+            function onPrevPage() {
+                if (pageNum <= 1) {
+                    return;
+                }
+                pageNum--;
+                queueRenderPage(pageNum);
+            }
+            document.getElementById("prev").addEventListener("click", onPrevPage);
+
+            function onNextPage() {
+                if (pageNum >= pdfDoc.numPages) {
+                    return;
+                }
+                pageNum++;
+                queueRenderPage(pageNum);
+            }
+            document.getElementById("next").addEventListener("click", onNextPage);
+
+            pdfjsLib.getDocument(url).promise
+                .then(function (pdfDoc_) {
+                    pdfDoc = pdfDoc_;
+                    document.getElementById("page_count").textContent = pdfDoc.numPages;
+                    renderPage(pageNum);
+                });
+        </script>
+    }
+}
+
+

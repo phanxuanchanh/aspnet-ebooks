@@ -1,0 +1,33 @@
+﻿@model SachDienTu.Models.BookState
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.SiteName</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div id="dataTable" class="dataTables_wrapper dt-bootstrap4">
+                <table class="table table-bordered table table-hover">
+                    <tbody>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.name)</th>
+                            <td class="text-info"><strong>@Html.DisplayFor(model => model.name)</strong></td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.description)</th>
+                            <td>@Html.DisplayFor(model => model.description)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" }) |
+        @Html.ActionLink("Quay về danh sách", "Index", "null", htmlAttributes: new { @class = "btn btn-success" })
+    </div>
+</div>

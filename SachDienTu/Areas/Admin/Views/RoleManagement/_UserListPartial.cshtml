@@ -1,0 +1,96 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc
+@using X.PagedList.Mvc.Common
+@using SachDienTu.Models
+@model IEnumerable<SachDienTu.Models.ApplicationUser>
+
+@{IPagedList pagedInfo = (IPagedList)ViewBag.Users; }
+
+@*<div class="row">
+        <div class="col-sm-12 col-md-6">
+            <div class="dataTables_length" id="dataTable_length">
+                <label>
+                    Show <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div id="dataTable_filter" class="dataTables_filter">
+                <label>
+                    Search:
+                    <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="dataTable">
+                </label>
+            </div>
+        </div>
+    </div>*@
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+            <thead>
+                <tr role="row">
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending">@Html.DisplayNameFor(model => model.UserName)</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending">@Html.DisplayNameFor(model => model.LastName)</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending">@Html.DisplayNameFor(model => model.FirstName)</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" style="width:45%;">@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>Công cụ</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.UserName)</th>
+                    <th rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.LastName)</th>
+                    <th rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.FirstName)</th>
+                    <th rowspan="1" colspan="1">@Html.DisplayNameFor(model => model.Email)</th>
+                    <th rowspan="1" colspan="1">Công cụ</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (ApplicationUser user in ViewBag.Users)
+                {
+                    <tr role="row">
+                        <td>@user.UserName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.FirstName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @Html.ActionLink("Phân quyền", "AddRoleToUser", new { userId = user.Id }) |
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { id = user.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">Hiển thị @pagedInfo.PageSize trên tổng số @pagedInfo.TotalItemCount tác giả</div>
+    </div>
+    <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+            <ul class="pagination">
+                @Html.PagedListPager((IPagedList)ViewBag.Users, p => Url.Action("Users", "RoleManagement", new { page = p }),
+                    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                        new PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-itemm" },
+                            PageClasses = new string[] { "page-link" }
+                        },
+                        ajaxOptions: new AjaxOptions
+                        {
+                            UpdateTargetId = "dataTable",
+                            InsertionMode = InsertionMode.Replace,
+                            HttpMethod = "GET"
+                        }
+                    )
+                )
+            </ul>
+        </div>
+    </div>
+</div>
+

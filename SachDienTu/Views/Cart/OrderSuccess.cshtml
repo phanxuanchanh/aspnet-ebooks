@@ -1,0 +1,27 @@
+﻿@model SachDienTu.Models.Invoice
+
+@{
+    Layout = "~/Views/Shared/_BookLayout.cshtml";
+}
+
+@section BreadcrumbItem{
+    <span class="breadcrumb-item active">@ViewBag.SiteName</span>
+}
+
+
+<section class="ftco-section">
+    <div class="container">
+        <h2>Thông báo</h2>
+        <h3 class="text-success">
+            Đơn đặt hàng của bạn đã hoàn tất.
+        </h3>
+        <h3 class="mt-5">Thông tin hóa đơn:</h3>
+        <ul class="ml-5">
+            <li>Tên khách hàng: @Model.customerName</li>
+            <li>Email: @Model.email</li>
+            <li>Thời gian: @Model.timeOrder</li>
+            <li>Tổng tiền: @Model.totalMoney</li>
+        </ul>
+    </div>
+</section>
+

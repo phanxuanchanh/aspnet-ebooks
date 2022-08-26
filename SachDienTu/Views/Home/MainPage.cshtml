@@ -1,0 +1,141 @@
+﻿@using SachDienTu.Models
+
+@{
+    Layout = "~/Views/Shared/_BookLayout.cshtml";
+}
+
+<section class="slider">
+    <div class="container">
+        <div id="owl-demo" class="owl-carousel owl-theme">
+            <div class="item">
+                <div class="slide">
+                    <img src="~/Photos/anh-bia-1-1.jpg" .jpg" alt="slide1">
+                    <div class="content">
+                        <div class="title">
+                            <h3>welcome to bookstore</h3>
+                            <h5>Discover the best books online with us</h5>
+                            <a href="#" class="btn">shop books</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="slide">
+                    <img src="~/Photos/anh-bia-2-1.jpg" alt="slide1">
+                    <div class="content">
+                        <div class="title">
+                            <h3>welcome to bookstore</h3>
+                            <h5>Discover the best books online with us</h5>
+                            <a href="#" class="btn">shop books</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="slide">
+                    <img src="~/Photos/anh-bia-3-1.jpg" alt="slide1">
+                    <div class="content">
+                        <div class="title">
+                            <h3>welcome to bookstore</h3>
+                            <h5>Discover the best books online with us</h5>
+                            <a href="#" class="btn">shop books</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="slide">
+                    <img src="~/Photos/anh-bia-4-1.jpg" alt="slide1">
+                    <div class="content">
+                        <div class="title">
+                            <h3>welcome to bookstore</h3>
+                            <h5>Discover the best books online with us</h5>
+                            <a href="#" class="btn">shop books</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Html.Action("_Latest", "Book");
+<section class="about-sec">
+    <div class="about-img">
+        <figure style="background:url('@Url.Content("~/Photos/anh-bia-2-1.jpg")')no-repeat;"></figure>
+    </div>
+    <div class="about-content">
+        <h2>Về chúng tôi</h2>
+        <p>
+            Sách được tuyển chọn và phân theo chủ đề rõ ràng, trực quan giúp bạn dễ dàng tìm kiếm cuốn sách phù hợp với nhu cầu.
+            Dịch vụ hỗ trợ khách hàng qua các kênh điện thoại hotline, Facebook fanpage, Email, …
+            Mức giá cạnh tranh: 99% sách được giảm giá từ 20% trở lên, áp dụng ngay cả mua hàng tại nhà sách offline và nhà sách online.
+        </p>
+        <div class="btn-sec">
+            <a href="shop.html" class="btn yellow">shop books</a>
+            <a href="login.html" class="btn black">subscriptions</a>
+        </div>
+    </div>
+</section>
+@Html.Action("_BooksByView", "Book")
+
+@foreach (Category category in Model)
+{
+    @Html.Action("_ListByCategory", "Book", new { id = category.ID })
+
+}
+<section class="features-sec">
+    <div class="container">
+        <ul>
+            <li>
+                <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
+                <h3>MUA HÀNG AN TOÀN</h3>
+                <h5></h5>
+                <h6>Sách đảm bảo đầy đủ các tiêu chuẩn cần thiết</h6>
+            </li>
+            <li>
+                <span class="icon return"><i class="fa fa-reply-all" aria-hidden="true"></i></span>
+                <h3>30 NGÀY ĐỔI TRẢ</h3>
+                <h5></h5>
+                <h6>Đổi trả với thời gian lên đến 30 ngày</h6>
+            </li>
+            <li>
+                <span class="icon chat"><i class="fa fa-comments" aria-hidden="true"></i></span>
+                <h3>HỖ TRỢ 24/7</h3>
+                <h5></h5>
+                <h6>Bạn sẽ được hỗ trợ bất cứ lúc nào mà bạn cần</h6>
+            </li>
+        </ul>
+    </div>
+</section>
+<section class="offers-sec" style="background:url('@Url.Content("~/Photos/anh-bia-2-1.jpg")')no-repeat;">
+    <div class="cover"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="detail">
+                    <h3>Giảm giá 25% ngày 11/11</h3>
+                    <h6>
+                        Chúng tôi hiện đang cung cấp một số chiết khấu tốt cho những cuốn sách đã chọn, hãy đến và mua chúng
+                    </h6>
+                    <a href="products.html" class="btn blue-btn">view all books</a>
+                    <span class="icon-point percentage">
+                        @*<img src="images/precentagae.png" alt="">*@
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="detail">
+                    <h3>Giảm 5% khi mua từ 2 trở lên</h3>
+                    <h6>
+                        Chúng tôi hiện đang cung cấp một số chiết khấu tốt cho những cuốn sách đã chọn, hãy đến và mua chúng
+                    </h6>
+                    <a href="products.html" class="btn blue-btn">view all books</a>
+                    <span class="icon-point amount">
+                        @*<img src="images/amount.png" alt="">*@
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

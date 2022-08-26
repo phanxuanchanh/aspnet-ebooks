@@ -1,0 +1,81 @@
+﻿@using SachDienTu.Models
+
+@{
+    var cart = ViewBag.Cart as CartModel;
+}
+
+@if (cart != null && cart.TotalProduct > 0)
+{
+    int stt = 0;
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="cart-list table table-responsive">
+                    <table class="table-hover" style="width:100%;">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                                <th>Sách</th>
+                                <th>Giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in cart.List)
+                            {
+                                ++stt;
+                                <tr class="text-center" style="width:10%">
+                                    <td class="product-remove">
+                                        @{var frmDelete = $"frmXoa{stt}"; }
+                                        @using (Ajax.BeginForm("Delete", "Cart", new { bookId = item.book.ID },
+                                                new AjaxOptions
+                                                {
+                                                    UpdateTargetId = "cartContainer",
+                                                    InsertionMode = InsertionMode.Replace,
+                                                    HttpMethod = "POST"
+                                                }
+                                                , htmlAttributes: new { @id = frmDelete }))
+                                        {
+                                            <button type="submit" class="btn btn-remove">Xóa</button>
+                                        }
+                                    </td>
+
+                                    <td class="image-prod" style="width:10%">
+                                        <div class="img" style="background-image:url(images/product-3.jpg);"></div>
+                                    </td>
+
+                                    <td class="product-name" style="width:30%">
+                                        <p>@item.book.name</p>
+                                    </td>
+
+                                    <td class="price">@item.book.price.ToString("#, ##0 VNĐ")</td>
+                                </tr><!-- END TR-->
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="title">
+            <h2>Lập hóa đơn và thanh toán</h2>
+            <hr>
+        </div>
+        <div class="row">
+            <ul>
+                <li>Tổng số mặt hàng: @cart.TotalProduct</li>
+                <li>Tổng thành tiền: @cart.TotalMoney.ToString("#,##0 VNĐ")</li>
+            </ul>
+        </div>
+        <div class="row my-3">
+            <a href="@Url.Action("Order", "Cart")" class="btn black">Tiến hành lập hóa đơn</a>
+        </div>
+    </div>
+}
+
+@if (cart == null || cart.TotalProduct == 0)
+{
+    <div class="container">
+        <p class="text-warning">Giỏ hàng hiện tại đang trống</p>
+    </div>
+}

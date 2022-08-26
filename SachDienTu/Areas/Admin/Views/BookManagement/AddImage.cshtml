@@ -1,0 +1,128 @@
+﻿@using SachDienTu.Models;
+@model ImageIO
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.SiteName</h6>
+    </div>
+    <div class="card-body">
+        @Html.DisplayFor(model => model.bookName, new { htmlAttributes = new { @class = "text-primary" } })
+        <hr />
+        <p>@TempData["addImage"]</p>
+        <hr />
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.bookId)
+                @Html.HiddenFor(model => model.bookName)
+
+                <div class="form-group">
+                    <p class="text-success">Hình ảnh đã chọn</p>
+                    <div id="image_list_selected">
+
+                    </div>
+                </div>
+
+                @Html.HiddenFor(model => model.imagesId)
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.images, htmlAttributes: new { @class = "control-label" })
+                        <div>
+                            @Html.EditorFor(model => model.images, null, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.images, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    <div class="col-md-offset-2">
+                        <input type="submit" value="Thêm hình ảnh" class="btn btn-success" />
+                        <button type="button" class="btn btn-warning" onclick="removeImage();">Xóa hình ảnh</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-body">
+        <div class="title">
+            <p class="text-info">Lựa chọn hình cần thêm bằng cách nhấn vào hình ở bên dưới</p>
+        </div>
+        <div class="border" id="image_list">
+            @foreach (Image image in ViewBag.Images)
+            {
+                <img src="~/Photos/@image.source" class="mx-2 my-2" id="image_@image.ID" style="width:100px;height:100px" onclick="addImage(@image.ID);" />
+
+            }
+        </div>
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Xóa hình ảnh", "ImagesUsedInBook", new { id = Model.bookId }, new { @class = "btn btn-primary" })|
+        @Html.ActionLink("Quay về danh sách", "Index", "null", htmlAttributes: new { @class = "btn btn-primary" })|
+        @Html.ActionLink("Xem chi tiết", "Detail", "null", htmlAttributes: new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+<style>
+    #image_list {
+        border: 3px solid #00ff00;
+        width: 100%;
+        height: 450px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+</style>
+
+<script>
+
+    function checkExists(imageId, imageList, split) {
+        var imageArr = imageList.split(split);
+        for (var i = 0; i < imageArr.length; i++) {
+            if (imageId == imageArr[i])
+                return true;
+        }
+        return false;
+    }
+
+    function checkQuantity(imageList, split) {
+        if (imageList == null || imageList == "")
+            return 0;
+        var imageArr = imageList.split(split);
+        return imageArr.length;
+    }
+
+    function imageSeleted(src) {
+        document.getElementById("image_list_selected").innerHTML += "<img src=\"" + src + "\" class=\"mx-2 my-2\" style=\"width:100px;height:100px\" />";
+    }
+
+    function addImage(id) {
+        var src = document.getElementById("image_" + id).src;
+        var split = ";"
+        var imageId = "imagesId";
+        var imageList = document.getElementById(imageId).value;
+        if (checkExists(id, imageList, split)) {
+            alert("Đã chọn hình này, vui lòng chọn hình khác");
+        } else {
+            if (checkQuantity(imageList, split) == 0) {
+                document.getElementById(imageId).value = id;
+                imageSeleted(src);
+            } else if (checkQuantity(imageList, split) < 3) {
+                document.getElementById(imageId).value = imageList + split + id;
+                imageSeleted(src);
+            } else
+                alert("Tối đa là 3 hình ảnh, nếu bạn thêm hình sai hãy xóa toàn bộ và thêm lại");
+        }
+
+    }
+
+    function removeImage() {
+        document.getElementById("imagesId").value = "";
+        document.getElementById("image_list_selected").innerHTML = "";
+    }
+
+</script>

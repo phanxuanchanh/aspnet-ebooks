@@ -1,0 +1,171 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.SiteName - Sách điện tử</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#03a6f3">
+    @RenderSection("Meta", false)
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @Styles.Render("~/bundles/bookstyles")
+</head>
+
+<body>
+    <header>
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3"><a href="https://www.phanxuanchanh.com" class="web-url">phanxuanchanh.com</a></div>
+                    <div class="col-md-6">
+                        <h5>Hệ thống sách điện tử trực tuyến uy tín</h5>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="ph-number">Lượt xem: @{ Html.RenderAction("_Online", "Online"); }</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-menu">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")"><img src="~/front-end/images/logo.png" alt="logo"></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="navbar-item active">
+                                <a href="@Url.Action("MainPage", "Home")" class="nav-link">Trang chủ</a>
+                            </li>
+                            <li class="navbar-item">
+                                <a href="@Url.Action("GetBooks", "Book")" class="nav-link">Sách</a>
+                            </li>
+                            <li class="navbar-item">
+                                <a href="@Url.Action("GetMyBooks", "Book")" class="nav-link">Sách đã mua</a>
+                            </li>
+                            <li class="navbar-item">
+                                <a href="@Url.Action("Index", "Cart")" class="nav-link">Giỏ hàng</a>
+                            </li>
+                            @*<li class="navbar-item">
+                                <a href="@Url.Action("About", "Home")" class="nav-link">Giới thiệu</a>
+                            </li>*@
+                            <li class="navbar-item">
+                                <a href="@Url.Action("Login", "Account")" class="nav-link">Login</a>
+                            </li>
+                            <li class="navbar-item">
+                                <a href="@Url.Action("Index", "Admin", new { area = "Admin"})" class="nav-link">Quản trị</a>
+                            </li>
+                        </ul>
+                        <div class="cart my-2 my-lg-0">
+                            <span>
+                                <a href="@Url.Action("Index", "Cart")"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                            </span>
+                            <span class="quntity">@{Html.RenderAction("TotalProduct", "Cart");}</span>
+                        </div>
+                        @using (Html.BeginForm("Search", "Book", new { }, FormMethod.Get, htmlAttributes: new { @class = "form-inline my-2 my-lg-0" }))
+                        {
+                            @Html.Editor("keyword", new { htmlAttributes = new { @class = "form-control mr-sm-2", @type = "search", @placeholder = "Tìm kiếm sách tại đây..." } })
+                            <span class="fa fa-search"></span>
+                        }
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="breadcrumb">
+        <div class="container">
+            <a class="breadcrumb-item" href="@Url.Action("Index", "Home")">Trang chủ</a>
+            @RenderSection("BreadcrumbItem", false)
+        </div>
+    </div>
+    @RenderBody()
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="address">
+                        <h4>Địa chỉ:</h4>
+                        <h6>
+                            Tân Phú - Hồ Chí Minh
+                        </h6>
+                        <h6>Call : ...</h6>
+                        <h6>Email : ...</h6>
+                    </div>
+                    <div class="timing">
+                        <h4>Thời gian hoạt động</h4>
+                        <h6>Thứ 2 - Thứ 6: 7h - 22h</h6>
+                        <h6>​​Thứ 7: 8h - 10h</h6>
+                        <h6>​Chủ nhật: 8h - 10h</h6>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="navigation">
+                        <h4>Điều hướng</h4>
+                        <ul>
+                            <li><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                            <li><a href="@Url.Action("About", "Home")">Giới thiệu</a></li>
+                        </ul>
+                    </div>
+                    <div class="navigation">
+                        <h4>Trợ giúp</h4>
+                        <ul>
+                            <li><a href="">Shipping & Returns</a></li>
+                            <li><a href="privacy-policy.html">Privacy</a></li>
+                            <li><a href="faq.html">FAQ’s</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form">
+                        <h3>Quick Contact us</h3>
+                        <h6>
+                            We are now offering some good discount
+                            on selected books go and shop them
+                        </h6>
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input placeholder="Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" placeholder="Email" required>
+                                </div>
+                                <div class="col-md-12">
+                                    <textarea placeholder="Messege"></textarea>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn black">Alright, Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copy-right">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>(C) 2020 - @DateTime.Today.ToString("dd/MM/yyyy"). Sách điện tử - Giữ toàn quyền</h5>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="share align-middle">
+                            <span class="fb"><i class="fa fa-facebook-official"></i></span>
+                            <span class="instagram"><i class="fa fa-instagram"></i></span>
+                            <span class="twitter"><i class="fa fa-twitter"></i></span>
+                            <span class="pinterest"><i class="fa fa-pinterest"></i></span>
+                            <span class="google"><i class="fa fa-google-plus"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/bookscripts")
+    @RenderSection("Scripts", false)
+</body>
+
+</html>

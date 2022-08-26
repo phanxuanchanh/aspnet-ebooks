@@ -1,0 +1,31 @@
+﻿@using SachDienTu.Models 
+
+@{
+    Layout = "~/Views/Shared/_BookLayout.cshtml";
+}
+
+    <section class="recent-book-sec">
+        <div class="container">
+            <div class="title">
+                <h2>Sách được xem nhiều nhất</h2>
+                <hr>
+            </div>
+            <div class="row">
+                @foreach (BookOutput bookOutput in Model)
+                {
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <div class="item">
+
+                            <img src="~/Photos/@bookOutput.images.FirstOrDefault().source" alt="img">
+                            <h3><a href="@Url.Action("Detail", "Book", new { id = bookOutput.book.ID, url = bookOutput.book.url.Trim()})">@bookOutput.book.name</a></h3>
+                            <h6><span class="price">@bookOutput.book.price</span> / <a href="@Url.Action("Detail", "Book", new { id = bookOutput.book.ID, url = bookOutput.book.url.Trim()})">Mua ngay</a></h6>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="btn-sec">
+                <a href="@Url.Action("BooksByView", "Book")" class="btn gray-btn">Xem tất cả sách được xếp hạng theo lượt xem</a>
+            </div>
+        </div>
+    </section>
+

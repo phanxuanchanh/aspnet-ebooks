@@ -1,0 +1,37 @@
+﻿@using SachDienTu.Models
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.SiteName</h6>
+    </div>
+    <div class="card-body">
+        <p>@ViewBag.bookName</p>
+        <hr />
+        @foreach (ImageDistribution imageDistribution in Model)
+        {
+            <div class="row">
+                <div class="image">
+                    <img src="~/Photos/@imageDistribution.Image.source" style="width:100px;height:100px;" />
+                </div>
+                <div>
+                    @using (Html.BeginForm("DeleteImage", "BookManagement", new { bookId = imageDistribution.bookId, imageId = imageDistribution.imageId}, FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                        <button type="submit" class="btn btn-danger">Xóa</button>
+                    }
+                </div>
+            </div>
+            <hr/>
+        }
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Quay về danh sách", "Index", "null", htmlAttributes: new { @class = "btn btn-primary" })|
+        @Html.ActionLink("Xem chi tiết", "Detail", "null", htmlAttributes: new { @class = "btn btn-primary" })
+    </div>
+</div>
+
+

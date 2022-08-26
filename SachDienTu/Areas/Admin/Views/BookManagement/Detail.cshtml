@@ -1,0 +1,77 @@
+﻿@using SachDienTu.Models
+@model Book
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">@ViewBag.SiteName</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <div id="dataTable" class="dataTables_wrapper dt-bootstrap4">
+                <table class="table table-bordered table table-hover">
+                    <tbody>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.name)</th>
+                            <td class="text-success"><strong>@Html.DisplayFor(model => model.name)</strong></td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.price)</th>
+                            <td>@Model.price.ToString("#, ##0 VNĐ")</td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.description)</th>
+                            <td>@Html.Raw(Model.description)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.Category.name)</th>
+                            <td>@Html.DisplayFor(model => model.Category.name)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.PublishingHouse.name)</th>
+                            <td>@Html.DisplayFor(model => model.PublishingHouse.name)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">Tác giả</th>
+                            <td>
+                                <ul>
+                                    @foreach (AuthorContribute authorContribute in ViewBag.AuthorContributes)
+                                    {
+                                        <li>@authorContribute.BookAuthor.name - @authorContribute.role</li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">Hình ảnh</th>
+                            <td>
+                                @foreach (ImageDistribution imageDistribution in ViewBag.ImageDistributions)
+                                {
+                                    <img src="~/Photos/@imageDistribution.Image.source" style="width:100px;height:100px" />
+                                }
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.createAt)</th>
+                            <td>@Html.DisplayFor(model => model.createAt)</td>
+                        </tr>
+                        <tr>
+                            <th style="width:25%;">@Html.DisplayNameFor(model => model.updateAt)</th>
+                            <td>@Html.DisplayFor(model => model.updateAt)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" }) |
+        @Html.ActionLink("Thêm / xóa tác giả", "AddAuthor", new { id = Model.ID }, new { @class = "btn btn-primary" })|
+        @Html.ActionLink("Thêm / xóa hình ảnh", "AddImage", new { id = Model.ID }, new { @class = "btn btn-primary" })|
+        @Html.ActionLink("Quay về danh sách", "Index", "null", htmlAttributes: new { @class = "btn btn-success" })|
+    </div>
+</div>

@@ -1,0 +1,122 @@
+﻿@using SachDienTu.Models;
+@model Book
+
+@{
+    Layout = "~/Views/Shared/_BookLayout.cshtml";
+}
+
+@section BreadcrumbItem{
+    <span class="breadcrumb-item active">@Model.Category.name</span>
+    <span class="breadcrumb-item active">@Model.name</span>
+}
+
+<section class="product-sec">
+    <div class="container">
+        <h1>@Model.name</h1>
+        <div class="row">
+            <div class="col-md-6 slider-sec">
+                <!-- main slider carousel -->
+                <div id="myCarousel" class="carousel slide">
+                    <!-- main slider carousel items -->
+                    <div class="carousel-inner">
+                        @{ int i = 0; }
+                        @foreach (ImageDistribution imageDistribution in ViewBag.ImageDistributions)
+                        {
+                            if (i == 0)
+                            {
+                                <div class="active item carousel-item" data-slide-number="@i">
+                                    <img src="~/Photos/@imageDistribution.Image.source" class="img-fluid">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="item carousel-item" data-slide-number="@i">
+                                    <img src="~/Photos/@imageDistribution.Image.source" class="img-fluid">
+                                </div>
+                            }
+                            i++;
+                        }
+                    </div>
+                    <!-- main slider carousel nav controls -->
+                    <ul class="carousel-indicators list-inline">
+                        @{ i = 0; }
+                        @foreach (ImageDistribution imageDistribution in ViewBag.ImageDistributions)
+                        {
+                            if (i == 0)
+                            {
+                                <li class="list-inline-item active">
+                                    <a id="carousel-selector-@i" class="selected" data-slide-to="@i" data-target="#myCarousel">
+                                        <img src="~/Photos/@imageDistribution.Image.source" class="img-fluid">
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="list-inline-item">
+                                    <a id="carousel-selector-@i" data-slide-to="@i" data-target="#myCarousel">
+                                        <img src="~/Photos/@imageDistribution.Image.source" class="img-fluid">
+                                    </a>
+                                </li>
+                            }
+                            i++;
+                        }
+                    </ul>
+                </div>
+                <!--/main slider carousel-->
+            </div>
+            <div class="col-md-6 slider-content">
+                <div class="text-justify">@Html.Raw(Model.description)</div>
+                <hr />
+                <ul>
+                    <li>
+                        <p>Thể loại: @Model.Category.name</p>
+                    </li>
+                    <li>
+                        <p>Giá bán: <strong class="text-info" style="font-size:30px;">@Model.price.ToString("#, ##0 VNĐ")</strong></p>
+                    </li>
+                    <li><span class="save-cost"></span></li>
+                </ul>
+                <div class="btn-sec">
+                    @if (ViewBag.IsEnableAccess == "enable")
+                    {
+                        <a href="@Url.Action("WatchOnline", "Book", new { id = Model.ID, url = Model.url.Trim()})" target="_blank" class="btn black">Xem ngay</a>
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("AddToCart", "Cart", new { bookId = Model.ID }, FormMethod.Post, htmlAttributes: new { id = "frmAddToCart" }))
+                        {
+
+                        }
+                        <a href="javascript: frmAddToCart.submit()" class="btn">Thêm vào giỏ hàng</a>
+                        <a href="javascript: frmAddToCart.submit()" class="btn black">Mua ngay</a>
+                    }
+                    <a href="@Url.Action("ShareWithFacebook", "Book")" target="_blank" class="btn" id="share-popup" style="background-color:blue;">Chia sẻ - FB</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Html.Action("_ListByCategory", new { id = Model.categoryId, bookNumber = 4, mode = "Related" })
+
+@section Scripts{
+    <script type="text/javascript">
+        $("#share-popup").click(function () {
+            var window_size = "width=585,height=511";
+            var url = this.href;
+            var domain = url.split("/")[2];
+            switch (domain) {
+                case "www.facebook.com":
+                    window_size = "width=585,height=368";
+                    break;
+                case "www.twitter.com":
+                    window_size = "width=585,height=261";
+                    break;
+                case "plus.google.com":
+                    window_size = "width=517,height=511";
+                    break;
+            }
+            window.open(url, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,' + window_size);
+            return false;
+        });
+    </script>
+}

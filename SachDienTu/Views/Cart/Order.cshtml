@@ -1,0 +1,45 @@
+﻿@model SachDienTu.Models.Invoice
+
+@{
+    Layout = "~/Views/Shared/_BookLayout.cshtml";
+}
+
+@section BreadcrumbItem{
+    <span class="breadcrumb-item active">@ViewBag.SiteName</span>
+}
+
+
+<section>
+    <div class="container">
+        <div class="title">
+            <h2>Đặt mua sách điện tử</h2>
+            <hr />
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            @Html.HiddenFor(model => model.customerId);
+            <div class="form-group">
+                @Html.LabelFor(model => model.customerName, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.customerName, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.customerName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.email, new { @class = "control-label" })
+                <div>
+                    @Html.TextBoxFor(model => model.email, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-success" value="Đặt mua" />
+                </div>
+            </div>
+        }
+    </div>
+</section>

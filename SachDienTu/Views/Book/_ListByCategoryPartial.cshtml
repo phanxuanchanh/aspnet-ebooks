@@ -1,0 +1,55 @@
+﻿@using X.PagedList
+@using X.PagedList.Mvc
+@using X.PagedList.Mvc.Common
+@using SachDienTu.Models
+
+@{IPagedList pagedInfo = (IPagedList)ViewBag.BookOutputs; }
+
+<div class="container">
+    <div class="title">
+        <h2>@ViewBag.SiteName</h2>
+        <hr>
+    </div>
+    <div class="row">
+        @foreach (BookOutput bookOutput in ViewBag.BookOutputs)
+        {
+            <div class="col-lg-2 col-md-3 col-sm-4">
+                <div class="item">
+                    @{
+                        string source = null;
+                        if (bookOutput.images.Count != 0)
+                        {
+                            source = bookOutput.images.FirstOrDefault().source;
+                        }
+                        else
+                        {
+                            source = "no-img-1.jpg";
+                        }
+                    }
+                    <img src="~/Photos/@source" alt="img">
+                    <h3><a href="@Url.Action("Detail", "Book", new { id = bookOutput.book.ID, url = bookOutput.book.url.Trim()})">@bookOutput.book.name</a></h3>
+                    <h6><span class="price">@bookOutput.book.price.ToString("#, ##0 VNĐ")</span> / <a href="@Url.Action("Detail", "Book", new { id = bookOutput.book.ID, url = bookOutput.book.url.Trim()})">Mua ngay</a></h6>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="btn-sec">
+        <ul class="pagination justify-content-center">
+            @Html.PagedListPager((IPagedList)ViewBag.BookOutputs, p => Url.Action("ListByCategory", "Book", new { id = ViewBag.ID, page = p }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                    new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-itemm" },
+                        PageClasses = new string[] { "page-link" }
+                    },
+                    ajaxOptions: new AjaxOptions
+                    {
+                        UpdateTargetId = "bookUpdate",
+                        InsertionMode = InsertionMode.Replace,
+                        HttpMethod = "GET"
+                    }
+                )
+            )
+        </ul>
+    </div>
+</div>
